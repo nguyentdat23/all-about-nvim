@@ -10,14 +10,14 @@ vim.opt.linespace = 1
 vim.o.guifont = "CaskaydiaCove Nerd Font:h16:#e-subpixelantialias:#h-none"
 
 -- Helper function for transparency formatting
-local alpha = function()
-  return string.format("%x", math.floor(255 * vim.g.transparency or 0.8))
-end
-
-vim.g.neovide_transparency = 0.8
-vim.g.transparency = 0.8
-vim.g.neovide_background_color = "#333545" .. alpha()
-
+-- local alpha = function()
+--   return string.format("%x", math.floor(255 * vim.g.transparency or 0.85))
+-- end
+--
+-- vim.g.neovide_transparency = 0.85
+-- vim.g.transparency = 0.85
+-- vim.g.neovide_background_color = "#333545" .. alpha()
+--
 vim.g.neovide_theme = "dark"
 vim.g.neovide_cursor_animation_length = 0.1
 vim.g.neovide_cursor_smooth_blink = true
