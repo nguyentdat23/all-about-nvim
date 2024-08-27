@@ -1,7 +1,6 @@
 -- enable soft wrap
 vim.opt.wrap = true
 
-vim.o.background = "light"
 vim.g.neovide_window_blurred = true
 vim.g.neovide_position_animation_length = 0.15
 vim.g.neovide_text_gamma = 0.0
@@ -18,8 +17,7 @@ vim.o.guifont = "CaskaydiaCove Nerd Font:h16:#e-subpixelantialias:#h-none"
 -- vim.g.transparency = 0.85
 -- vim.g.neovide_background_color = "#333545" .. alpha()
 --
-vim.g.neovide_theme = "dark"
-vim.g.neovide_cursor_animation_length = 0.1
+vim.g.neovide_theme = "auto"
 vim.g.neovide_cursor_smooth_blink = true
 vim.g.neovide_cursor_vfx_mode = "railgun"
 vim.g.neovide_cursor_vfx_opacity = 200.0
