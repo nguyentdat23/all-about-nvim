@@ -4,13 +4,17 @@ return {
     "sainnhe/everforest",
     lazy = false,
     priority = 1000,
+    opts = {
+      everforest_background = "hard",
+      better_performance = 1,
+      enable_italic = 1,
+    },
   },
   {
     "sainnhe/edge",
     lazy = false,
     priority = 1000,
     opts = {
-      style = "aura",
       better_performance = 1,
       enable_italic = 1,
     },
