@@ -19,23 +19,6 @@ require("lazy").setup({
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import/override with your plugins
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    { import = "lazyvim.plugins.extras.lang.json" },
-    { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    {
-      import = "lazyvim.plugins.extras.coding.mini-surround",
-      options = {
-        mappings = {
-          add = "gsa", -- Add surrounding in Normal and Visual modes
-          delete = "gsd", -- Delete surrounding
-          find = "gsf", -- Find surrounding (to the right)
-          find_left = "gsF", -- Find surrounding (to the left)
-          highlight = "gsh", -- Highlight surrounding
-          replace = "gsr", -- Replace surrounding
-          update_n_lines = "gsn", -- Update `n_lines`
-        },
-      },
-    },
     { import = "plugins" },
   },
   defaults = {
@@ -47,6 +30,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
+  install = { colorscheme = { "edge" } },
   checker = {
     enabled = true, -- check for plugin updates periodically
     notify = false, -- notify on update
@@ -67,16 +51,3 @@ require("lazy").setup({
     },
   },
 })
-
-local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<C-p>", builtin.find_files, {})
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
-
-vim.g.neovide_cursor_vfx_mode = "railgun"
-vim.g.neovide_cursor_animation_length = 0.13
-vim.g.neovide_cursor_trail_length = 0.8
-
-vim.g.neovide_text_gamma = 0
-vim.g.neovide_text_contrast = 0.1
