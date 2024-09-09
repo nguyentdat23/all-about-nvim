@@ -1,7 +1,10 @@
 return {
+  { "LazyVim/LazyVim", import = "lazyvim.plugins" },
   { import = "lazyvim.plugins.extras.ui.mini-starter" },
   { import = "lazyvim.plugins.extras.lang.json" },
   { import = "lazyvim.plugins.extras.lang.typescript" },
+  { import = "lazyvim.plugins.extras.lang.tailwind" },
+  { import = "plugins" },
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
