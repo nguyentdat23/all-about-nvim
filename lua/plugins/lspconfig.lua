@@ -98,11 +98,6 @@ return {
               desc = "File References",
             },
             {
-              "<leader>co",
-              LazyVim.lsp.action["source.organizeImports"],
-              desc = "Organize Imports",
-            },
-            {
               "<leader>cM",
               LazyVim.lsp.action["source.addMissingImports.ts"],
               desc = "Add missing imports",
