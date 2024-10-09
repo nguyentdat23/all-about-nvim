@@ -1,24 +1,21 @@
 return {
   { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+  { import = "lazyvim.plugins.extras.dap.core" },
   { import = "lazyvim.plugins.extras.ui.mini-starter" },
   { import = "lazyvim.plugins.extras.lang.json" },
   { import = "lazyvim.plugins.extras.lang.typescript" },
   { import = "lazyvim.plugins.extras.lang.tailwind" },
+  { import = "lazyvim.plugins.extras.lang.java" },
   { import = "plugins" },
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
-        "bash",
         "html",
         "javascript",
         "json",
         "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        "regex",
+        "java",
         "tsx",
         "typescript",
         "vim",
@@ -132,6 +129,11 @@ return {
       -- return true if you don't want this server to be setup with lspconfig
       ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
       setup = {
+        jdtls = function()
+          require("java").setup({
+            -- your nvim-java configuration goes here
+          })
+        end,
         -- example to setup with typescript.nvim
         tsserver = function(_, opts)
           require("typescript").setup({ server = opts })
