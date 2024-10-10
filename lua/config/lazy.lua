@@ -43,6 +43,8 @@ require("lazy").setup({
         -- "matchit",
         -- "matchparen",
         -- "netrwPlugin",
+        "hrsh7th/nvim-cmp",
+        "nvim-cmp",
         "tarPlugin",
         "tohtml",
         "tutor",
