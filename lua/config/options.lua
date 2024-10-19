@@ -3,7 +3,7 @@
 -- Add any additional options here
 -- Neovide
 vim.opt.linespace = 1
-vim.o.guifont = "CaskaydiaCove Nerd Font:h16:#e-subpixelantialias:#h-none"
+-- vim.o.guifont = "CaskaydiaCove_Nerd_Font:h16:#e-subpixelantialias:#h-none"
 
 if vim.g.neovide then
   vim.g.neovide_window_blurred = true
