@@ -6,7 +6,6 @@ return {
         "shellcheck",
         "vtsls",
         "eslint-lsp",
-        "jdtls",
       },
     },
   },
