@@ -21,6 +21,14 @@ return {
       keymap = {
         preset = "enter",
       },
+      sources = {
+        completion = {
+          enabled_providers = { "lsp", "path", "snippets" },
+        },
+      },
+      fuzzy = {
+        sorts = { "kind", "label", "score" },
+      },
       windows = {
         autocomplete = {
           draw = function(ctx)

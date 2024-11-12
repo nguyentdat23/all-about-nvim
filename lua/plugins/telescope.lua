@@ -1,5 +1,23 @@
 return {
   {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = {
+      window = {
+        mappings = {
+          ["R"] = {
+            function(state)
+              local node = state.tree:get_node()
+              local path = node:get_id()
+
+              require("telescope.builtin").live_grep({ search_dirs = { path } })
+            end,
+            desc = "live_grep in current dir",
+          },
+        },
+      },
+    },
+  },
+  {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       {
@@ -35,8 +53,13 @@ return {
     -- change some options
     opts = {
       defaults = {
-        layout_strategy = "horizontal",
-        layout_config = { prompt_position = "top" },
+        layout_strategy = "vertical",
+        layout_config = { prompt_position = "bottom" },
+      },
+      pickers = {
+        find_files = {
+          theme = "dropdown",
+        },
       },
     },
   },
