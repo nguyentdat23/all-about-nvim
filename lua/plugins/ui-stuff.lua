@@ -1,5 +1,4 @@
 return {
-  { "nvim-tree/nvim-tree.lua" },
   {
     "kevinhwang91/nvim-ufo",
     dependencies = {

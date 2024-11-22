@@ -3,6 +3,11 @@ return {
   --   "iguanacucumber/magazine.nvim",
   --   name = "nvim-cmp", -- Otherwise highlighting gets messed up
   -- },
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+  },
   { "hrsh7th/nvim-cmp", enabled = false },
   {
     "saghen/blink.cmp",
@@ -18,25 +23,19 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      keymap = {
-        preset = "enter",
-      },
-      sources = {
-        completion = {
-          enabled_providers = { "lsp", "path", "snippets" },
-        },
-      },
-      fuzzy = {
-        sorts = { "kind", "label", "score" },
-      },
+      keymap = "enter",
       windows = {
         autocomplete = {
           draw = function(ctx)
             local icon, cmp_item = ctx.kind_icon, ctx.item
             local cmp_source = ""
 
-            if cmp_item.labelDetails and cmp_item.labelDetails.description then
-              cmp_source = cmp_item.labelDetails.description
+            if cmp_item.data and cmp_item.data.entryNames and cmp_item.data.entryNames[1] then
+              local entryNames = cmp_item.data.entryNames[1]
+
+              if entryNames and entryNames.source then
+                cmp_source = entryNames.source
+              end
             end
 
             return {
