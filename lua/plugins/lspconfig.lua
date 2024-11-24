@@ -32,7 +32,7 @@ return {
           enabled = false,
         },
         vtsls = {
-          enabled = false,
+          enabled = true,
           -- explicitly add default filetypes, so that we can extend
           -- them in related extras
           filetypes = {
@@ -77,48 +77,51 @@ return {
           },
         },
       },
+      config = function(_, opts)
+        -- config blink.cmp to work better with nvim-lspconfig
+        local lspconfig = require("lspconfig")
+        for server, config in pairs(opts.servers or {}) do
+          config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+          lspconfig[server].setup(config)
+        end
+      end,
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
       ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
       setup = {
-        -- example to setup with typescript.nvim
-        -- tsserver = function(_, opts)
-        --   require("typescript").setup({ server = opts })
-        --   return true
+        -- eslint = function()
+        --   local function get_client(buf)
+        --     return LazyVim.lsp.get_clients({ name = "eslint", bufnr = buf })[1]
+        --   end
+        --
+        --   local formatter = LazyVim.lsp.formatter({
+        --     name = "eslint: lsp",
+        --     primary = false,
+        --     priority = 200,
+        --     filter = "eslint",
+        --   })
+        --
+        --   -- Use EslintFixAll on Neovim < 0.10.0
+        --   if not pcall(require, "vim.lsp._dynamic") then
+        --     formatter.name = "eslint: EslintFixAll"
+        --     formatter.sources = function(buf)
+        --       local client = get_client(buf)
+        --       return client and { "eslint" } or {}
+        --     end
+        --     formatter.format = function(buf)
+        --       local client = get_client(buf)
+        --       if client then
+        --         local diag = vim.diagnostic.get(buf, { namespace = vim.lsp.diagnostic.get_namespace(client.id) })
+        --         if #diag > 0 then
+        --           vim.cmd("EslintFixAll")
+        --         end
+        --       end
+        --     end
+        --   end
+        --
+        --   -- register the formatter with LazyVim
+        --   LazyVim.format.register(formatter)
         -- end,
-        eslint = function()
-          local function get_client(buf)
-            return LazyVim.lsp.get_clients({ name = "eslint", bufnr = buf })[1]
-          end
-
-          local formatter = LazyVim.lsp.formatter({
-            name = "eslint: lsp",
-            primary = false,
-            priority = 200,
-            filter = "eslint",
-          })
-
-          -- Use EslintFixAll on Neovim < 0.10.0
-          if not pcall(require, "vim.lsp._dynamic") then
-            formatter.name = "eslint: EslintFixAll"
-            formatter.sources = function(buf)
-              local client = get_client(buf)
-              return client and { "eslint" } or {}
-            end
-            formatter.format = function(buf)
-              local client = get_client(buf)
-              if client then
-                local diag = vim.diagnostic.get(buf, { namespace = vim.lsp.diagnostic.get_namespace(client.id) })
-                if #diag > 0 then
-                  vim.cmd("EslintFixAll")
-                end
-              end
-            end
-          end
-
-          -- register the formatter with LazyVim
-          LazyVim.format.register(formatter)
-        end,
         vtsls = function(_, opts)
           LazyVim.lsp.on_attach(function(client, buffer)
             client.commands["_typescript.moveToFileRefactoring"] = function(command, ctx)

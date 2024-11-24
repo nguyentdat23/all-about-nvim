@@ -3,11 +3,6 @@ return {
   --   "iguanacucumber/magazine.nvim",
   --   name = "nvim-cmp", -- Otherwise highlighting gets messed up
   -- },
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {},
-  },
   { "hrsh7th/nvim-cmp", enabled = false },
   {
     "saghen/blink.cmp",
@@ -24,25 +19,46 @@ return {
     ---@type blink.cmp.Config
     opts = {
       keymap = "enter",
+      fuzzy = {
+        sorts = { "score", "kind", "label" },
+      },
+      sources = {
+        providers = {
+          snippets = {
+            name = "Snippets",
+            module = "blink.cmp.sources.snippets",
+            score_offset = -40,
+            opts = {
+              friendly_snippets = true,
+              search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+              global_snippets = { "all" },
+              extended_filetypes = {},
+              ignored_filetypes = {},
+              get_filetype = function(context)
+                return vim.bo.filetype
+              end,
+            },
+
+            --- Example usage for disabling the snippet provider after pressing trigger characters (i.e. ".")
+            -- enabled = function(ctx) return ctx ~= nil and ctx.trigger.kind == vim.lsp.protocol.CompletionTriggerKind.TriggerCharacter end,
+          },
+        },
+      },
       windows = {
         autocomplete = {
           draw = function(ctx)
             local icon, cmp_item = ctx.kind_icon, ctx.item
             local cmp_source = ""
 
-            if cmp_item.data and cmp_item.data.entryNames and cmp_item.data.entryNames[1] then
-              local entryNames = cmp_item.data.entryNames[1]
-
-              if entryNames and entryNames.source then
-                cmp_source = entryNames.source
-              end
+            if cmp_item.labelDetails and cmp_item.labelDetails.description then
+              cmp_source = cmp_item.labelDetails.description
             end
 
             return {
               {
                 " " .. ctx.item.label,
                 fill = true,
-                -- hl_group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel",
+                hl_group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel",
               },
               {
                 string.format(" %s %-10s", icon, ctx.kind),

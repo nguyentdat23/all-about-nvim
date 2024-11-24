@@ -4,7 +4,7 @@ return {
     opts = {
       ensure_installed = {
         "shellcheck",
-        -- "vtsls",
+        "vtsls",
         "eslint-lsp",
       },
     },
