@@ -8,75 +8,87 @@ return {
     "saghen/blink.cmp",
     lazy = false, -- lazy loading handled internally
     -- optional: provides snippets for the snippet source
-    dependencies = "rafamadriz/friendly-snippets",
+    dependencies = { "rafamadriz/friendly-snippets", "mikavilpas/blink-ripgrep.nvim" },
 
     -- use a release tag to download pre-built binaries
     version = "v0.*",
-    -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-    -- build = 'cargo build --release',
 
     ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
     opts = {
-      keymap = "enter",
-      fuzzy = {
-        sorts = { "score", "kind", "label" },
+      keymap = { preset = "enter" },
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = "mono",
       },
-      sources = {
-        providers = {
-          snippets = {
-            name = "Snippets",
-            module = "blink.cmp.sources.snippets",
-            score_offset = -40,
-            opts = {
-              friendly_snippets = true,
-              search_paths = { vim.fn.stdpath("config") .. "/snippets" },
-              global_snippets = { "all" },
-              extended_filetypes = {},
-              ignored_filetypes = {},
-              get_filetype = function(context)
-                return vim.bo.filetype
-              end,
-            },
+      completion = {
+        menu = {
+          draw = {
+            components = {
+              label_description = {
+                width = { max = 30 },
+                text = function(ctx)
+                  local cmp_item = ctx.item
 
-            --- Example usage for disabling the snippet provider after pressing trigger characters (i.e. ".")
-            -- enabled = function(ctx) return ctx ~= nil and ctx.trigger.kind == vim.lsp.protocol.CompletionTriggerKind.TriggerCharacter end,
+                  if cmp_item.data and cmp_item.data.entryNames and cmp_item.data.entryNames[1] then
+                    local entryNames = cmp_item.data.entryNames[1]
+
+                    if entryNames and entryNames.source then
+                      return entryNames.source
+                    end
+                  end
+
+                  return ctx.label_description
+                end,
+                highlight = "BlinkCmpLabelDescription",
+              },
+            },
           },
         },
       },
-      windows = {
-        autocomplete = {
-          draw = function(ctx)
-            local icon, cmp_item = ctx.kind_icon, ctx.item
-            local cmp_source = ""
 
-            if cmp_item.labelDetails and cmp_item.labelDetails.description then
-              cmp_source = cmp_item.labelDetails.description
-            end
+      -- default list of enabled providers defined so that you can extend it
+      -- elsewhere in your config, without redefining it, via `opts_extend`
+      sources = {
+        completion = {
+          enabled_providers = { "lsp", "path", "snippets", "buffer", "ripgrep" },
+        },
+        providers = {
+          ripgrep = {
+            module = "blink-ripgrep",
+            name = "Ripgrep",
+            -- the options below are optional, some default values are shown
+            ---@module "blink-ripgrep"
+            ---@type blink-ripgrep.Options
+            opts = {
+              -- For many options, see `rg --help` for an exact description of
+              -- the values that ripgrep expects.
 
-            return {
-              {
-                " " .. ctx.item.label,
-                fill = true,
-                hl_group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel",
-              },
-              {
-                string.format(" %s %-10s", icon, ctx.kind),
-                hl_group = "BlinkCmpKind" .. ctx.kind,
-              },
-              {
-                string.format("%-2s", cmp_source),
-                hl_group = "BlinkCmpSource",
-              },
-            }
-          end,
+              -- the minimum length of the current word to start searching
+              -- (if the word is shorter than this, the search will not start)
+              prefix_min_len = 3,
+
+              -- The number of lines to show around each match in the preview window
+              context_size = 5,
+
+              -- The maximum file size that ripgrep should include in its search.
+              -- Useful when your project contains large files that might cause
+              -- performance issues.
+              -- Examples: "1024" (bytes by default), "200K", "1M", "1G"
+              max_filesize = "1M",
+            },
+          },
         },
       },
-      highlight = {
-        use_nvim_cmp_as_default = true,
-      },
-      nerd_font_variant = "normal",
+
+      -- experimental auto-brackets support
+      -- completion = { accept = { auto_brackets = { enabled = true } } }
+
+      -- experimental signature help support
+      -- signature = { enabled = true }
     },
+    -- allows extending the enabled_providers array elsewhere in your config
+    -- without having to redefine it
+    opts_extend = { "sources.completion.enabled_providers" },
   },
   {
     "ggandor/leap.nvim",
