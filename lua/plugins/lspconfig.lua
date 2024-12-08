@@ -1,11 +1,5 @@
 return {
   { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-  { import = "lazyvim.plugins.extras.dap.core" },
-  { import = "lazyvim.plugins.extras.ui.mini-starter" },
-  { import = "lazyvim.plugins.extras.lang.json" },
-  { import = "lazyvim.plugins.extras.lang.typescript" },
-  { import = "lazyvim.plugins.extras.lang.tailwind" },
-  { import = "plugins" },
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
@@ -28,15 +22,6 @@ return {
       settings = {
         expose_as_code_action = "all",
       },
-      keys = {
-        {
-          "<leader>cu",
-          function()
-            vim.print("hello from cu")
-          end,
-          desc = "Remove unused imports",
-        },
-      },
     },
   },
   {
@@ -53,11 +38,11 @@ return {
       },
       config = function(_, opts)
         -- config blink.cmp to work better with nvim-lspconfig
-        -- local lspconfig = require("lspconfig")
-        -- for server, config in pairs(opts.servers or {}) do
-        --   config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-        --   lspconfig[server].setup(config)
-        -- end
+        local lspconfig = require("lspconfig")
+        for server, config in pairs(opts.servers or {}) do
+          config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+          lspconfig[server].setup(config)
+        end
       end,
     },
   },

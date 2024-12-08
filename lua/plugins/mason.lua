@@ -5,6 +5,7 @@ return {
       ensure_installed = {
         "shellcheck",
         "eslint-lsp",
+        "prettier",
       },
     },
   },

@@ -79,8 +79,11 @@ vim.keymap.set("v", "<leader>T", function()
   mc.transposeCursors(-1)
 end)
 
--- Customize how cursors look.
--- vim.api.nvim_set_hl(0, "MultiCursorCursor", { link = "Cursor" })
--- vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
--- vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
--- vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+-- show duration to save current buffer
+vim.keymap.set("", "<C-s>", function()
+  local start_time = vim.loop.hrtime()
+  vim.cmd("write")
+  local elapsed = (vim.loop.hrtime() - start_time) / 1e6
+
+  print(string.format("Saved in %.2f ms", elapsed))
+end, { desc = "Save with timing" })
