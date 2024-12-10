@@ -1,8 +1,4 @@
 return {
-  -- {
-  --   "iguanacucumber/magazine.nvim",
-  --   name = "nvim-cmp", -- Otherwise highlighting gets messed up
-  -- },
   { "hrsh7th/nvim-cmp", enabled = false },
   {
     "saghen/blink.cmp",
@@ -14,6 +10,7 @@ return {
     version = "v0.*",
 
     ---@module 'blink.cmp'
+    --- @type blink.cmp.Config
     opts = {
       keymap = { preset = "enter" },
       appearance = {
@@ -44,13 +41,16 @@ return {
             },
           },
         },
+        list = {
+          max_items = 50,
+        },
       },
 
       -- default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, via `opts_extend`
       sources = {
         completion = {
-          enabled_providers = { "lsp", "path", "snippets", "buffer", "ripgrep" },
+          enabled_providers = { "lsp", "snippets" },
         },
         providers = {
           ripgrep = {
@@ -68,7 +68,7 @@ return {
               prefix_min_len = 3,
 
               -- The number of lines to show around each match in the preview window
-              context_size = 5,
+              context_size = 3,
 
               -- The maximum file size that ripgrep should include in its search.
               -- Useful when your project contains large files that might cause
@@ -79,12 +79,6 @@ return {
           },
         },
       },
-
-      -- experimental auto-brackets support
-      -- completion = { accept = { auto_brackets = { enabled = true } } }
-
-      -- experimental signature help support
-      -- signature = { enabled = true }
     },
     -- allows extending the enabled_providers array elsewhere in your config
     -- without having to redefine it
