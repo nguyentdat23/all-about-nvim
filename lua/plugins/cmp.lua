@@ -12,8 +12,19 @@ return {
         use_nvim_cmp_as_default = true,
       },
       completion = {
-        trigger = {
-          show_on_insert_on_trigger_character = false,
+        accept = {
+          auto_brackets = {
+            enabled = false,
+          },
+        },
+        ghost_text = {
+          enabled = false,
+        },
+        list = {
+          max_items = 20,
+          selection = {
+            auto_insert = false,
+          },
         },
         menu = {
           draw = {

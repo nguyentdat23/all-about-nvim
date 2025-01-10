@@ -1,12 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
-vim.keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-
--- Lspsaga keymapping
-vim.keymap.set("n", "<leader>sd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
-vim.keymap.set("n", "<leader>sl", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
-
 -- Multicursor
 local mc = require("multicursor-nvim")
 
@@ -87,3 +78,8 @@ vim.keymap.set("", "<C-s>", function()
 
   print(string.format("Saved in %.2f ms", elapsed))
 end, { desc = "Save with timing" })
+
+-- typescript-tools: remove all unused
+vim.keymap.set("", "<leader>cm", function()
+  vim.cmd("TSToolsRemoveUnused")
+end, { desc = "TS remove unused" })

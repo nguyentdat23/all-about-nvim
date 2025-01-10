@@ -1,6 +1,6 @@
 local home = os.getenv("HOME")
 
-local workspace_path = home .. "/.local/share/nvim/jdtls-workspace/"
+local workspace_path = home .. "/local/share/nvim/jdtls-workspace/"
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = workspace_path .. project_name
 
@@ -33,16 +33,24 @@ local config = {
     workspace_dir,
   },
   root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }),
-
   settings = {
+    jdtls = {
+      handlers = {
+        ["language/status"] = function(_, _) end,
+      },
+    },
     java = {
+      format = {
+        enabled = true,
+        settings = {
+          url = home .. "/Developer/config/intellij-java-google-style.xml",
+          profile = "GoogleStyle",
+        },
+      },
       signatureHelp = { enabled = true },
       extendedClientCapabilities = extendedClientCapabilities,
       maven = {
         downloadSources = true,
-      },
-      referencesCodeLens = {
-        enabled = true,
       },
       references = {
         includeDecompiledSources = true,
@@ -51,9 +59,6 @@ local config = {
         parameterNames = {
           enabled = "all", -- literals, all, none
         },
-      },
-      format = {
-        enabled = false,
       },
     },
   },
