@@ -2,6 +2,19 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
+      filesystem = {
+        components = {
+          name = function(config, node, state)
+            local components = require("neo-tree.sources.common.components")
+            local name = components.name(config, node, state)
+            if node:get_depth() > 3 then
+              name.text = vim.fn.pathshorten(name.text, 2)
+            end
+
+            return name
+          end,
+        },
+      },
       window = {
         mappings = {
           ["R"] = {
